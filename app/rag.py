@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Optional
 
-from langchain_community.embeddings import OllamaEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 
 from app.settings import settings
@@ -35,7 +35,7 @@ def _build_where_filter(*, location: Optional[str], education_background: Option
 
 
 def get_vectorstore(persist_dir: str | None = None) -> Chroma:
-    embeddings = OllamaEmbeddings(model=settings.ollama_model)
+    embeddings = HuggingFaceEmbeddings(model_name=settings.embeddings_model)
     return Chroma(
         collection_name=settings.chroma_collection,
         persist_directory=persist_dir or settings.chroma_persist_dir,

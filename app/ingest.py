@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from langchain_community.document_loaders import PyPDFLoader
-from langchain_community.embeddings import OllamaEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
@@ -57,7 +57,7 @@ def ingest_policies(
         separators=["\n\n", "\n", " ", ""],
     )
 
-    embeddings = OllamaEmbeddings(model=settings.ollama_model)
+    embeddings = HuggingFaceEmbeddings(model_name=settings.embeddings_model)
     vs = Chroma(
         collection_name=settings.chroma_collection,
         persist_directory=persist_dir or settings.chroma_persist_dir,
