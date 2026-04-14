@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Local Chroma persistence / runtime data
+data/chroma/
+data/policies/*.pdf
+
+# Frontend/mobile build artifacts (if integrated later)
+node_modules/
+dist/
+build/
+.dart_tool/
+flutter_build/

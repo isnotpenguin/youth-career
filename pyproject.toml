@@ -17,5 +17,16 @@
    "httpx>=0.27.0",
  ]
  
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+exclude = ["data*", "frontend*", "mobile*", ".venv*"]
+
  [tool.uvicorn]
  factory = false

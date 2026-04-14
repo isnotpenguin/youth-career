@@ -1,0 +1,64 @@
+Metadata-Version: 2.4
+Name: youth-career-policy-navigator
+Version: 0.1.0
+Summary: Policy PDF RAG pipeline (LangChain + ChromaDB) with metadata-filtered retrieval.
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi>=0.115.0
+Requires-Dist: uvicorn[standard]>=0.30.0
+Requires-Dist: pydantic>=2.7.0
+Requires-Dist: python-dotenv>=1.0.1
+Requires-Dist: langchain>=0.3.0
+Requires-Dist: langchain-community>=0.3.0
+Requires-Dist: langchain-text-splitters>=0.3.0
+Requires-Dist: chromadb>=0.5.0
+Requires-Dist: pypdf>=4.3.0
+Requires-Dist: httpx>=0.27.0
+
+ ## Youth Career Policy Navigator — RAG Pipeline
+ 
+ This project implements:
+ - PDF ingestion with `RecursiveCharacterTextSplitter`
+ - ChromaDB persistence with per-chunk metadata
+ - Retrieval with **metadata filtering** on `location` and `education_background`
+ - A small FastAPI API for querying
+ 
+ ### Prereqs
+ - Python 3.11+
+ - (Recommended) Ollama installed and running (`ollama serve`)
+ 
+ ### Setup
+ 
+ ```bash
+ python -m venv .venv
+ source .venv/bin/activate
+ pip install -U pip
+ pip install -e .
+ ```
+ 
+ ### Add PDFs
+ Put government policy PDFs under `data/policies/`.
+ 
+ ### Ingest PDFs into Chroma
+ 
+ ```bash
+ python -m app.ingest --pdf_dir data/policies --persist_dir data/chroma
+ ```
+ 
+ ### Run the API
+ 
+ ```bash
+ uvicorn app.main:app --reload
+ ```
+ 
+ Then query:
+ 
+ ```bash
+ curl -X POST http://127.0.0.1:8000/retrieve \
+   -H 'Content-Type: application/json' \
+   -d '{
+     "query": "What subsidies exist for youth internships?",
+     "location": "Taipei",
+     "education_background": "Bachelor"
+   }'
+ ```
